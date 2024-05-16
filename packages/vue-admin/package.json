@@ -1,0 +1,51 @@
+{
+    "name": "@thundev/vue-admin",
+    "version": "1.0.0",
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "main": "dist/index.umd.cjs",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "vite build && npm run generate:types",
+        "eslint": "eslint src --ext .ts,.js,.vue",
+        "eslint-fix": "eslint --fix src --ext .ts,.js,.vue",
+        "generate:types": "vue-tsc --declaration --emitDeclarationOnly --outdir dist"
+    },
+    "peerDependencies": {
+        "@ckeditor/ckeditor5-vue": "^5.1.0",
+        "vue": "^3.2.47"
+    },
+    "devDependencies": {
+        "@thundev/ckeditor": "^1.0.0",
+        "@heroicons/vue": "^2.0.18",
+        "@types/moment-duration-format": "^2.2.3",
+        "@types/node": "^20.8.4",
+        "@types/scrollparent": "^2.0.1",
+        "@typescript-eslint/eslint-plugin": "^7.0.0",
+        "@typescript-eslint/parser": "^7.0.0",
+        "@vitejs/plugin-vue": "^5.0.0",
+        "@vue/eslint-config-prettier": "^9.0.0",
+        "@vue/eslint-config-typescript": "^12.0.0",
+        "autoprefixer": "^10.4.13",
+        "dayjs": "^1.11.9",
+        "element-plus": "^2.3.0",
+        "eslint": "^8.40.0",
+        "eslint-import-resolver-typescript": "^3.6.1",
+        "eslint-plugin-import": "^2.28.1",
+        "eslint-plugin-vue": "^9.13.0",
+        "less": "^4.1.2",
+        "lodash": "^4.17.21",
+        "postcss": "^8.4.28",
+        "postcss-import": "^16.0.0",
+        "postcss-loader": "^8.0.0",
+        "scrollparent": "^2.0.1",
+        "tailwindcss": "^3.0.23",
+        "typescript": "^5.2.2",
+        "vite": "^5.0.0",
+        "vue-tsc": "^1.6.4",
+        "vue3-click-away": "^1.2.1"
+    }
+}

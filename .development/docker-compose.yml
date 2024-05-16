@@ -1,0 +1,13 @@
+version: '3.8'
+
+networks:
+  default:
+
+services:
+  node:
+    image: node:lts-alpine
+    volumes:
+      - ../:/var/www/html:delegated
+    working_dir: /var/www/html
+    ports:
+      - "5173:5173"

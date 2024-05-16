@@ -1,0 +1,31 @@
+@tailwind utilities;
+
+:root {
+    --el-text-color-regular: theme('colors.gray.800') !important;
+}
+
+.el-select .el-input {
+    --el-input-placeholder-color: theme('colors.gray.800') !important;
+}
+
+.el-textarea.has-error textarea {
+    --el-input-border-color: theme('colors.red.300');
+    --el-input-focus-border-color: theme('colors.red.500');
+    --el-input-hover-border-color: theme('colors.red.500');
+}
+
+.el-input.has-error .el-input__wrapper {
+    --el-input-border-color: theme('colors.red.300');
+    --el-input-focus-border-color: theme('colors.red.500');
+    --el-input-hover-border-color: theme('colors.red.500');
+}
+
+.el-select.has-error .el-input__wrapper {
+    --el-input-border-color: theme('colors.red.300');
+    --el-select-input-focus-border-color: theme('colors.red.500');
+    --el-select-input-hover-border-color: theme('colors.red.500');
+}
+
+[v-clock] {
+    display: none;
+}
