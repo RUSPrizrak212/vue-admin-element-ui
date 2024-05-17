@@ -1,5 +1,5 @@
 {
-    "name": "@thundev/vue-admin-ckeditor",
+    "name": "vue-admin-element-ui-ckeditor",
     "version": "1.0.0",
     "private": true,
     "scripts": {

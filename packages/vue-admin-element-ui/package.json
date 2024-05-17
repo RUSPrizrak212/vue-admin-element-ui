@@ -1,5 +1,5 @@
 {
-    "name": "@thundev/vue-admin",
+    "name": "vue-admin-element-ui",
     "version": "1.0.0",
     "type": "module",
     "files": [
@@ -19,7 +19,6 @@
         "vue": "^3.2.47"
     },
     "devDependencies": {
-        "@thundev/vue-admin-ckeditor": "^1.0.0",
         "@heroicons/vue": "^2.0.18",
         "@types/moment-duration-format": "^2.2.3",
         "@types/node": "^20.8.4",
@@ -45,6 +44,7 @@
         "tailwindcss": "^3.0.23",
         "typescript": "^5.2.2",
         "vite": "^5.0.0",
+        "vue-admin-element-ui-ckeditor": "^1.0.0",
         "vue-tsc": "^1.6.4",
         "vue3-click-away": "^1.2.1"
     }

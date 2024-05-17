@@ -17,8 +17,8 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: npm run build --workspace=@thundev/vue-admin-ckeditor
-      - run: npm run build --workspace=@thundev/vue-admin
-      - run: npm publish --workspace=@thundev/vue-admin
+      - run: npm run build --workspace=vue-admin-element-ui-ckeditor
+      - run: npm run build --workspace=vue-admin-element-ui
+      - run: npm publish --workspace=vue-admin-element-ui
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
