@@ -1,7 +1,7 @@
-import 'vue-admin-ckeditor/build/ckeditor';
-import 'vue-admin-ckeditor/build/translations/es';
-import 'vue-admin-ckeditor/build/translations/fr';
-import 'vue-admin-ckeditor/build/translations/ru';
+import '@thundev/vue-admin-ckeditor/build/ckeditor';
+import '@thundev/vue-admin-ckeditor/build/translations/es';
+import '@thundev/vue-admin-ckeditor/build/translations/fr';
+import '@thundev/vue-admin-ckeditor/build/translations/ru';
 
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
