@@ -43,6 +43,10 @@ export interface IVueAdminHelper {
 export interface IEntityController {
     total(): number;
 
+    currentPage(): number;
+
+    lastPage(): number;
+
     nextPage(): number | null;
 
     items(): Array<Map>;

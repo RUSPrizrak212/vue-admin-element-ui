@@ -62,10 +62,19 @@
                     />
                 </div>
             </div>
-            <div v-if="nextPage" class="flex justify-center">
+            <div v-if="nextPage && useCursorPagination" class="flex justify-center">
                 <v-button color="white" :loading="nextPageLoading" @click="loadItems(nextPage)">
                     {{ $vueAdmin.t('MORE') }}
                 </v-button>
+            </div>
+            <div v-else-if="!loading" class="flex justify-center mt-2">
+                <v-pagination
+                    @page-change="loadItems"
+                    :loading="nextPageLoading"
+                    :adjacent-pages="adjacentPages"
+                    :last-page="lastPage"
+                    :current-page="currentPage"
+                />
             </div>
         </div>
         <entity-form
@@ -88,10 +97,12 @@ import VButton from '../widgets/VButton.vue';
 import Plus from '../svg/Plus.vue';
 import FilterSort from '../filters/VFilterSort.vue';
 import { IEntityController } from '@/types';
+import VPagination from '@/components/others/VPagination.vue';
 
 export default defineComponent({
     name: 'VEntity',
     components: {
+        VPagination,
         FilterSort,
         Plus,
         VButton,
@@ -106,11 +117,13 @@ export default defineComponent({
         filters: { type: Object, default: undefined },
         components: { type: Array, default: undefined },
         preprocesses: { type: Array, default: undefined },
+        adjacentPages: { type: Number, default: 2 },
         canCreate: { type: Boolean, default: false },
         canView: { type: Boolean, default: false },
         canEdit: { type: Boolean, default: false },
         canDelete: { type: Boolean, default: false },
         showTotal: { type: Boolean, default: false },
+        useCursorPagination: { type: Boolean, default: false },
         entityFormInit: { type: Function, default: undefined },
         formConfig: { type: Object, default: undefined },
         loader: {
@@ -128,7 +141,7 @@ export default defineComponent({
     emits: ['sort'],
     data() {
         return {
-            loading: false,
+            loading: true,
             nextPageLoading: false,
             formVisible: false,
             editItemId: undefined as number | undefined,
@@ -148,6 +161,12 @@ export default defineComponent({
         },
         total() {
             return this.controller.total();
+        },
+        currentPage() {
+            return this.controller.currentPage();
+        },
+        lastPage() {
+            return this.controller.lastPage();
         },
         nextPage() {
             return this.controller.nextPage();
