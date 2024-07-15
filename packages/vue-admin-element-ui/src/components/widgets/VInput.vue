@@ -1,5 +1,5 @@
 <template>
-    <div v-cloak :class="$attrs.class" class="flex flex-col relative">
+    <div :class="$attrs.class" class="flex flex-col relative">
         <v-label v-if="label" :id="id" :value="label" :required="required" />
         <div class="flex rounded-md shadow-sm">
             <span
@@ -33,6 +33,7 @@
                 :step="step"
                 :type="type"
                 @blur="onBlur"
+                @keyup.enter="onKeyUpEnter"
                 v-if="!multiline"
                 v-model="model"
             />
@@ -50,6 +51,7 @@
                 :required="required"
                 :rows="rows"
                 @blur="onBlur"
+                @keyup.enter="onKeyUpEnter"
                 type="textarea"
                 v-else
                 v-model="model"
@@ -98,7 +100,7 @@ export default defineComponent({
         step: { type: [String, Number], default: undefined },
         type: { type: String, default: 'text' },
     },
-    emits: ['update:modelValue', 'blur'],
+    emits: ['update:modelValue', 'blur', 'keyupEnter'],
     computed: {
         model: {
             get() {
@@ -116,6 +118,9 @@ export default defineComponent({
     methods: {
         onBlur() {
             this.$emit('blur', this.id);
+        },
+        onKeyUpEnter() {
+            this.$emit('keyupEnter', this.id);
         },
     },
 });

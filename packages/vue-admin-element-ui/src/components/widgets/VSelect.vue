@@ -12,6 +12,7 @@
                 :filterable="filterable"
                 :disabled="disabled"
                 size="large"
+                v-bind="props"
             >
                 <el-option v-for="item in items" :key="item[valueId]" :label="item[valueName]" :value="item[valueId]" />
             </el-select>
@@ -44,6 +45,7 @@ export default defineComponent({
         items: { type: Array<any>, required: true },
         label: { type: String, default: '' },
         placeholder: { type: String, default: '' },
+        props: { type: Object, default: undefined },
         clearable: { type: Boolean, default: false },
         filterable: { type: Boolean, default: false },
         required: { type: Boolean, default: false },

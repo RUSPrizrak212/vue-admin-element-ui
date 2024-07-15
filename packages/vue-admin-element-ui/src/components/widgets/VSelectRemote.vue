@@ -3,8 +3,8 @@
         <div :class="$attrs.class" class="flex flex-col">
             <v-label v-if="label" :id="id" :value="label" :required="required" />
 
-            <div class="relative h-12" v-if="firstLoading">
-                <loader class="h-8 text-gray-600" />
+            <div class="relative h-10 border" v-if="firstLoading">
+                <loader class="h-6 text-gray-600" />
             </div>
 
             <el-select
@@ -68,6 +68,7 @@ export default defineComponent({
         remoteShowSuffix: { type: Boolean, default: false },
         controller: { type: Object as PropType<IEntityController>, required: true },
         searchKey: { type: String, default: 'search' },
+        additionalRequest: { type: Object, default: () => {} },
     },
     emits: ['update:modelValue', 'changeItem'],
     computed: {
@@ -94,24 +95,24 @@ export default defineComponent({
             loading: true,
             scrollTop: 0,
             searchRequest: '',
-            debounce: _.debounce(function (vm: any) {
-                let data = {};
+            debounce: _.debounce(function (context: any) {
+                const data = Object.assign({}, context.additionalRequest);
 
-                if (vm.searchRequest) {
-                    data = { [vm.searchKey]: vm.searchRequest };
+                if (context.searchRequest) {
+                    data[context.searchKey] = context.searchRequest;
                 }
 
-                vm.loading = true;
-                vm.controller.getItems(data).finally(() => (vm.loading = false));
+                context.loading = true;
+                context.controller.getItems(data).finally(() => (context.loading = false));
             }, 500),
         };
     },
     async mounted() {
-        await this.controller.getItems({});
+        await this.controller.getItems(this.additionalRequest);
         this.loading = false;
         this.firstLoading = false;
-        this.suggest = (this.$refs['filter-select'] as any).scrollbarRef.wrapRef;
-        this.suggest.addEventListener('scroll', this.handleScroll);
+        this.suggest = (this.$refs['filter-select'] as any)?.scrollbarRef?.wrapRef;
+        this.suggest?.addEventListener('scroll', this.handleScroll);
     },
     methods: {
         handleRemoteMethod(val: string) {
@@ -130,6 +131,7 @@ export default defineComponent({
                 const nextPage = this.controller.nextPage();
                 if (!this.loading && nextPage) {
                     this.controller.getItems({
+                        ...this.additionalRequest,
                         page: nextPage,
                         [this.searchKey]: this.searchRequest,
                     });

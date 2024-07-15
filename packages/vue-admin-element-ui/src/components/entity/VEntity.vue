@@ -62,8 +62,8 @@
                     />
                 </div>
             </div>
-            <div v-if="nextPage && useCursorPagination" class="flex justify-center">
-                <v-button color="white" :loading="nextPageLoading" @click="loadItems(nextPage)">
+            <div v-if="useCursorPagination" class="flex justify-center">
+                <v-button v-if="nextPage" color="white" :loading="nextPageLoading" @click="loadItems(nextPage)">
                     {{ $vueAdmin.t('MORE') }}
                 </v-button>
             </div>
@@ -123,7 +123,7 @@ export default defineComponent({
         canEdit: { type: Boolean, default: false },
         canDelete: { type: Boolean, default: false },
         showTotal: { type: Boolean, default: false },
-        useCursorPagination: { type: Boolean, default: false },
+        useCursorPagination: { type: Boolean, default: true },
         entityFormInit: { type: Function, default: undefined },
         formConfig: { type: Object, default: undefined },
         loader: {
