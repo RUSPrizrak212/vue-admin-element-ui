@@ -69,7 +69,7 @@
             </div>
             <div v-else-if="!loading" class="flex justify-center mt-2">
                 <v-pagination
-                    @page-change="loadItems"
+                    @page-change="onPageChange"
                     :loading="nextPageLoading"
                     :adjacent-pages="adjacentPages"
                     :last-page="lastPage"
@@ -138,7 +138,7 @@ export default defineComponent({
             required: true,
         },
     },
-    emits: ['sort'],
+    emits: ['sort', 'changePage'],
     data() {
         return {
             loading: true,
@@ -205,6 +205,9 @@ export default defineComponent({
                 sort: sort.active,
                 sort_direction: sort.direction,
             });
+        },
+        onPageChange(page: number) {
+            this.$emit('changePage', page);
         },
         async onInitEntity() {
             if (this.entityFormInit) {
