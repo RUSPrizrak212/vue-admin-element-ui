@@ -23,6 +23,8 @@
                 :remote-show-suffix="remoteShowSuffix"
                 size="large"
                 @change="itemChange"
+                :multiple="multiple"
+                v-bind="binds"
             >
                 <el-option v-for="item in items" :key="item[valueId]" :label="item[valueName]" :value="item[valueId]" />
             </el-select>
@@ -60,9 +62,11 @@ export default defineComponent({
         clearable: { type: Boolean, default: false },
         required: { type: Boolean, default: false },
         disabled: { type: Boolean, default: false },
+        multiple: { type: Boolean, default: false },
         valueId: { type: String, default: 'id' },
         valueName: { type: String, default: 'name' },
         entityForm: { type: Object as PropType<IEntityForm>, default: undefined },
+        binds: { type: Object as PropType<any>, default: undefined },
         modelValue: { type: [Number, String], default: undefined },
         error: { type: String as PropType<string | null>, default: undefined },
         remoteShowSuffix: { type: Boolean, default: false },
