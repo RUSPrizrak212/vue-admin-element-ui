@@ -67,7 +67,7 @@ export default defineComponent({
         valueName: { type: String, default: 'name' },
         entityForm: { type: Object as PropType<IEntityForm>, default: undefined },
         binds: { type: Object as PropType<any>, default: undefined },
-        modelValue: { type: [Number, String], default: undefined },
+        modelValue: { type: [Number, String, Array], default: undefined },
         error: { type: String as PropType<string | null>, default: undefined },
         remoteShowSuffix: { type: Boolean, default: false },
         controller: { type: Object as PropType<IEntityController>, required: true },
