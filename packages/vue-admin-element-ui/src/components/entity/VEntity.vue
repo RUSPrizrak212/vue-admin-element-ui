@@ -46,21 +46,20 @@
                     <div v-if="showTotal" class="text-gray-400">{{ $vueAdmin.t('TOTAL') }}: {{ total }}</div>
                 </div>
             </div>
-            <div class="overflow-x-auto">
-                <div class="entity-table-wrapper inline-block min-w-full bg-white shadow rounded-lg overflow-hidden">
-                    <entity-table
-                        :fields="fields"
-                        :sort="localSort"
-                        :components="components"
-                        :preprocesses="preprocesses"
-                        :can-view="canView"
-                        :can-edit="canEdit"
-                        :can-delete="canDelete"
-                        :controller="controller"
-                        @edit="onEditTable"
-                        @sort="onSortTable"
-                    />
-                </div>
+            <div class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+                <entity-table
+                    :table-class="tableClass"
+                    :fields="fields"
+                    :sort="localSort"
+                    :components="components"
+                    :preprocesses="preprocesses"
+                    :can-view="canView"
+                    :can-edit="canEdit"
+                    :can-delete="canDelete"
+                    :controller="controller"
+                    @edit="onEditTable"
+                    @sort="onSortTable"
+                />
             </div>
             <div v-if="useCursorPagination" class="flex justify-center">
                 <v-button v-if="nextPage" color="white" :loading="nextPageLoading" @click="loadItems(nextPage)">
@@ -112,6 +111,7 @@ export default defineComponent({
     },
     props: {
         title: { type: String, default: undefined },
+        tableClass: { type: String, default: undefined },
         fields: { type: Array, default: undefined },
         sort: { type: Object, default: undefined },
         filters: { type: Object, default: undefined },
