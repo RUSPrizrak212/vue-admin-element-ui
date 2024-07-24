@@ -150,7 +150,7 @@ export default defineComponent({
 
             const width = `${Math.max(firstLineItem.offsetWidth, currentElement.offsetWidth)}px`;
 
-            firstLineItem.style.width`` = width;
+            firstLineItem.style.width = width;
             firstLineItem.style.minWidth = width;
             currentElement.style.width = width;
             currentElement.style.minWidth = width;
