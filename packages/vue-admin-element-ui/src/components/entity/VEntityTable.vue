@@ -17,7 +17,7 @@
                             style="width: auto"
                             :key="key"
                             scope="col"
-                            :class="field.columnClass"
+                            :class="[field.columnClass, field.headerClass]"
                             class="px-5 py-3 bg-white text-gray-500 text-left text-sm uppercase font-normal"
                         >
                             <div
