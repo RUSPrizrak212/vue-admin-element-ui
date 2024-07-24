@@ -2,78 +2,92 @@
     <div v-if="!items.length" class="font-light text-2xl text-center py-5">
         {{ $vueAdmin.t('THERE_IS_NOTHING_HERE') }}
     </div>
-    <div v-else class="overflow-auto min-w-full max-h-svh" :class="tableClass">
-        <table class="leading-normal">
-            <thead>
-                <tr class="sticky top-0 z-20">
-                    <th
-                        v-for="(field, key) in fields"
-                        :key="key"
-                        scope="col"
-                        :class="field.columnClass"
-                        class="px-5 py-3 bg-white text-gray-500 text-left text-sm uppercase font-normal"
-                    >
-                        <div
-                            class="flex items-center space-x-2"
-                            :class="{
-                                'hover:text-gray-400 transition cursor-pointer':
-                                    sortEnabled && isSortableField(field.name),
-                            }"
-                            @click="sortEnabled && isSortableField(field.name) && onColumnSort(field.name)"
+    <div v-else>
+        <div
+            ref="thead"
+            style="width: 0"
+            :class="{ 'sticky top-0 z-20': stickyHeader }"
+            class="rounded-t-lg bg-gray-100 border-b border-gray-200 overflow-hidden"
+        >
+            <table class="min-w-full border-collapse table-fixed">
+                <thead>
+                    <tr>
+                        <th
+                            v-for="(field, key) in fields"
+                            style="width: auto"
+                            :key="key"
+                            scope="col"
+                            :class="field.columnClass"
+                            class="px-5 py-3 bg-white text-gray-500 text-left text-sm uppercase font-normal"
                         >
-                            {{ field.title }}
-                            <div v-if="sortEnabled && isSortableField(field.name) && isSortedField(field.name)">
-                                <angle-up v-if="localSort.direction === 'asc'" width="20px" height="20px" />
-                                <angle-down v-else width="20px" height="20px" />
+                            <div
+                                class="flex items-center space-x-2"
+                                :class="{
+                                    'hover:text-gray-400 transition cursor-pointer':
+                                        sortEnabled && isSortableField(field.name),
+                                }"
+                                @click="sortEnabled && isSortableField(field.name) && onColumnSort(field.name)"
+                            >
+                                {{ field.title }}
+                                <div v-if="sortEnabled && isSortableField(field.name) && isSortedField(field.name)">
+                                    <angle-up v-if="localSort.direction === 'asc'" width="20px" height="20px" />
+                                    <angle-down v-else width="20px" height="20px" />
+                                </div>
                             </div>
-                        </div>
-                    </th>
-                    <th
-                        v-if="canEdit || canDelete"
-                        scope="col"
-                        class="px-5 py-3 bg-white border-b border-gray-200 text-gray-500 text-left text-sm uppercase font-normal"
-                    />
-                </tr>
-            </thead>
-            <tbody>
-                <tr
-                    v-for="item in items"
-                    :key="item.id"
-                    class="hover:bg-gray-100 transition group"
-                    :class="{
-                        'item-created': !!item._created,
-                        'item-updated': !!item._updated,
-                        'item-deleted': !!item._deleted,
-                    }"
-                >
-                    <td
-                        v-for="(field, key) in fields"
-                        :key="key"
-                        :class="field.columnClass"
-                        class="px-5 py-5 border-b border-gray-200 text-sm"
-                    >
-                        <component
-                            :is="field.component ?? 'entity-table-field'"
-                            v-bind="getProps(item, field)"
-                            v-if="getVisibility(item, field)"
-                            @event="field.listener"
+                        </th>
+                        <th
+                            v-if="canEdit || canDelete"
+                            scope="col"
+                            style="width: auto"
+                            class="px-5 py-3 bg-white text-gray-500 text-left text-sm uppercase font-normal"
                         />
-                    </td>
-                    <td v-if="canEdit" class="px-5 py-5 border-b border-gray-200 text-sm text-right">
-                        <button
-                            class="inline-block pointer text-indigo-500 hover:text-indigo-600"
-                            type="button"
-                            @click="$emit('edit', item.id)"
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div @scroll="onHorizontalScroll" ref="table" class="overflow-x-auto min-w-full" :class="tableClass">
+            <table class="leading-normal table-fixed">
+                <tbody>
+                    <tr
+                        v-for="item in items"
+                        :key="item.id"
+                        class="hover:bg-gray-100 transition group"
+                        :class="{
+                            'item-created': !!item._created,
+                            'item-updated': !!item._updated,
+                            'item-deleted': !!item._deleted,
+                        }"
+                    >
+                        <td
+                            style="width: auto"
+                            v-for="(field, key) in fields"
+                            :key="key"
+                            :class="field.columnClass"
+                            class="px-5 py-5 border-b border-gray-200 text-sm"
                         >
-                            {{ $vueAdmin.t('EDIT') }}
-                        </button>
-                    </td>
-                    <td v-if="canDelete" class="px-5 py-5 border-b border-t border-gray-200 text-sm">
-                        <entity-delete-item :item="item" :controller="controller" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                            <component
+                                :is="field.component ?? 'entity-table-field'"
+                                v-bind="getProps(item, field)"
+                                v-if="getVisibility(item, field)"
+                                @event="field.listener"
+                            />
+                        </td>
+                        <td v-if="canEdit" class="px-5 py-5 border-b border-gray-200 text-sm text-right">
+                            <button
+                                class="inline-block pointer text-indigo-500 hover:text-indigo-600"
+                                type="button"
+                                @click="$emit('edit', item.id)"
+                            >
+                                {{ $vueAdmin.t('EDIT') }}
+                            </button>
+                        </td>
+                        <td v-if="canDelete" class="px-5 py-5 border-b border-t border-gray-200 text-sm">
+                            <entity-delete-item :item="item" :controller="controller" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -96,6 +110,7 @@ export default defineComponent({
         EntityForm,
     },
     props: {
+        stickyHeader: { type: Boolean, default: false },
         tableClass: { type: String, default: undefined },
         fields: { type: Array<any>, default: undefined },
         sort: { type: Object as any, default: () => ({}) },
@@ -119,6 +134,27 @@ export default defineComponent({
         sortEnabled() {
             return this.localSort.type === 'table';
         },
+    },
+    mounted() {
+        const table = this.$refs.table as HTMLDivElement;
+        const thead = this.$refs.thead as HTMLDivElement;
+
+        const rect = table.getBoundingClientRect();
+        thead.style.width = `${rect.width}px`;
+
+        const firstLine = table.getElementsByTagName('tr')[0].children;
+
+        Array.from(thead.getElementsByTagName('tr')[0].children).forEach((value, index) => {
+            const firstLineItem = firstLine[index] as HTMLElement;
+            const currentElement = value as HTMLElement;
+
+            const width = `${Math.max(firstLineItem.offsetWidth, currentElement.offsetWidth)}px`;
+
+            firstLineItem.style.width`` = width;
+            firstLineItem.style.minWidth = width;
+            currentElement.style.width = width;
+            currentElement.style.minWidth = width;
+        });
     },
     methods: {
         getProps(item: any, field: any) {
@@ -154,6 +190,9 @@ export default defineComponent({
         isSortedField(field: string): boolean {
             const active = this.getSortableField(field).value;
             return this.localSort.active === active;
+        },
+        onHorizontalScroll(event: Event) {
+            (this.$refs.thead as HTMLDivElement).scrollLeft = (event.target as HTMLElement)!.scrollLeft;
         },
         onColumnSort(field: string) {
             const active = this.getSortableField(field).value;

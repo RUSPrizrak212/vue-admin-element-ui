@@ -46,8 +46,9 @@
                     <div v-if="showTotal" class="text-gray-400">{{ $vueAdmin.t('TOTAL') }}: {{ total }}</div>
                 </div>
             </div>
-            <div class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+            <div class="min-w-full bg-white shadow rounded-lg relative">
                 <entity-table
+                    :sticky-header="stickyHeader"
                     :table-class="tableClass"
                     :fields="fields"
                     :sort="localSort"
@@ -126,6 +127,7 @@ export default defineComponent({
         useCursorPagination: { type: Boolean, default: true },
         entityFormInit: { type: Function, default: undefined },
         formConfig: { type: Object, default: undefined },
+        stickyHeader: { type: Boolean, default: false },
         loader: {
             type: Object,
             default: () => ({
