@@ -16,6 +16,7 @@
                             v-for="(field, key) in fields"
                             style="width: auto"
                             :key="key"
+                            :style="field.columnStyles"
                             scope="col"
                             :class="[field.columnClass, field.headerClass]"
                             class="px-5 py-3 bg-white text-gray-500 text-left text-sm uppercase font-normal"
@@ -63,6 +64,7 @@
                             v-for="(field, key) in fields"
                             :key="key"
                             :class="field.columnClass"
+                            :style="field.columnStyles"
                             class="px-5 py-5 border-b border-gray-200 text-sm"
                         >
                             <component
