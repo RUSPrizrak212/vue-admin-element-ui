@@ -46,12 +46,10 @@ export default defineComponent({
         bodyClass: { type: String, default: undefined },
     },
     emits: ['close', 'confirm'],
-    data() {
-        return {
-            localConfirmButtonText: this.confirmButtonText ?? this.$vueAdmin.t('ACCEPT'),
-        };
-    },
     computed: {
+        localConfirmButtonText() {
+            return this.confirmButtonText ?? this.$vueAdmin.t('ACCEPT');
+        },
         positionClass() {
             if (this.buttonsPosition === 'left') {
                 return 'justify-start';

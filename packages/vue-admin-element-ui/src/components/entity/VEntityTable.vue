@@ -22,7 +22,7 @@
                             class="px-5 py-3 bg-white text-gray-500 text-left text-sm uppercase font-normal"
                         >
                             <div
-                                class="flex items-center space-x-2"
+                                class="flex items-center space-x-2 max-h-10"
                                 :class="{
                                     'hover:text-gray-400 transition cursor-pointer':
                                         sortEnabled && isSortableField(field.name),
@@ -52,7 +52,7 @@
                     <tr
                         v-for="item in items"
                         :key="item.id"
-                        class="hover:bg-gray-100 transition group"
+                        class="transition group"
                         :class="{
                             'item-created': !!item._created,
                             'item-updated': !!item._updated,
@@ -63,9 +63,9 @@
                             style="width: auto"
                             v-for="(field, key) in fields"
                             :key="key"
-                            :class="field.columnClass"
+                            :class="field.columnClass ? field.columnClass : 'bg-white'"
                             :style="field.columnStyles"
-                            class="px-5 py-5 border-b border-gray-200 text-sm"
+                            class="px-5 py-5 border-b border-gray-200 text-sm group-hover:brightness-90 transition"
                         >
                             <component
                                 :is="field.component ?? 'entity-table-field'"
@@ -150,12 +150,13 @@ export default defineComponent({
             const firstLineItem = firstLine[index] as HTMLElement;
             const currentElement = value as HTMLElement;
 
-            const width = `${Math.max(firstLineItem.offsetWidth, currentElement.offsetWidth)}px`;
+            const width = `${Math.max(firstLineItem.offsetWidth, currentElement.offsetWidth) + 1}px`;
 
-            firstLineItem.style.width = width;
-            firstLineItem.style.minWidth = width;
-            currentElement.style.width = width;
-            currentElement.style.minWidth = width;
+            [firstLineItem, currentElement].forEach((item) => {
+                item.style.width = width;
+                item.style.minWidth = width;
+                item.style.maxWidth = width;
+            });
         });
     },
     methods: {
