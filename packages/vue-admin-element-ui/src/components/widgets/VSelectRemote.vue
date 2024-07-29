@@ -63,6 +63,7 @@ export default defineComponent({
         required: { type: Boolean, default: false },
         disabled: { type: Boolean, default: false },
         multiple: { type: Boolean, default: false },
+        mountedRequest: { type: Boolean, default: true },
         valueId: { type: String, default: 'id' },
         valueName: { type: String, default: 'name' },
         entityForm: { type: Object as PropType<IEntityForm>, default: undefined },
@@ -112,7 +113,10 @@ export default defineComponent({
         };
     },
     async mounted() {
-        await this.controller.getItems(this.additionalRequest);
+        if (this.mountedRequest) {
+            await this.controller.getItems(this.additionalRequest);
+        }
+
         this.loading = false;
         this.firstLoading = false;
         this.suggest = (this.$refs['filter-select'] as any)?.scrollbarRef?.wrapRef;
