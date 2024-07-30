@@ -8,6 +8,7 @@
             </div>
 
             <el-select
+                @click="onClickSelect"
                 v-show="!firstLoading"
                 ref="filter-select"
                 :id="id"
@@ -96,6 +97,7 @@ export default defineComponent({
     data() {
         return {
             firstLoading: true,
+            firstClick: false,
             suggest: null as any,
             loading: true,
             scrollTop: 0,
@@ -115,6 +117,7 @@ export default defineComponent({
     async mounted() {
         if (this.mountedRequest) {
             await this.controller.getItems(this.additionalRequest);
+            this.firstClick = true;
         }
 
         this.loading = false;
@@ -123,6 +126,12 @@ export default defineComponent({
         this.suggest?.addEventListener('scroll', this.handleScroll);
     },
     methods: {
+        onClickSelect() {
+            if (!this.mountedRequest && !this.firstClick) {
+                this.handleRemoteMethod('');
+                this.firstClick = true;
+            }
+        },
         handleRemoteMethod(val: string) {
             if (val === this.searchRequest) {
                 return;
