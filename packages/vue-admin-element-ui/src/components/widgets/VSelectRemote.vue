@@ -43,7 +43,7 @@ import { ElConfigProvider, ElOption, ElSelect } from 'element-plus';
 import VLabel from './VLabel.vue';
 import 'element-plus/es/components/select/style/css';
 import { IEntityController, IEntityForm, Map } from '@/types';
-import _ from 'lodash';
+import _, { isArray } from 'lodash';
 import Loader from '@/components/svg/Loader.vue';
 
 export default defineComponent({
@@ -74,6 +74,7 @@ export default defineComponent({
         remoteShowSuffix: { type: Boolean, default: false },
         controller: { type: Object as PropType<IEntityController>, required: true },
         searchKey: { type: String, default: 'search' },
+        idsKey: { type: String, default: 'ids' },
         additionalRequest: { type: Object, default: () => {} },
     },
     emits: ['update:modelValue', 'changeItem'],
@@ -115,6 +116,12 @@ export default defineComponent({
         };
     },
     async mounted() {
+        if (isArray(this.model) && this.model.length) {
+            await this.controller.getItems({ [this.idsKey]: this.model });
+        } else if (this.model) {
+            await this.controller.getItems({ [this.idsKey]: [this.model] });
+        }
+
         if (this.mountedRequest) {
             await this.controller.getItems(this.additionalRequest);
             this.firstClick = true;
