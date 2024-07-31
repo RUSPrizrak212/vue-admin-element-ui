@@ -53,7 +53,7 @@ export default defineComponent({
         valueId: { type: String, default: 'id' },
         valueName: { type: String, default: 'name' },
         entityForm: { type: Object as PropType<IEntityForm>, default: undefined },
-        modelValue: { type: [Number, String], default: undefined },
+        modelValue: { type: [Number, String, Array], default: undefined },
         error: { type: String as PropType<string | null>, default: undefined },
     },
     emits: ['update:modelValue'],

@@ -141,6 +141,10 @@ export default defineComponent({
         const table = this.$refs.table as HTMLDivElement;
         const thead = this.$refs.thead as HTMLDivElement;
 
+        if (!table || !thead) {
+            return;
+        }
+
         const rect = table.getBoundingClientRect();
         thead.style.width = `${rect.width}px`;
 
