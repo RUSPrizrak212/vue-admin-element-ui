@@ -167,11 +167,7 @@ export default defineComponent({
             return;
         }
 
-        const rect = table.getBoundingClientRect();
-        thead.style.width = `${rect.width}px`;
-
         const firstLine = table.getElementsByTagName('tr')[0].children;
-
         Array.from(thead.getElementsByTagName('tr')[0].children).forEach((value, index) => {
             const firstLineItem = firstLine[index] as HTMLElement;
             const currentElement = value as HTMLElement;
