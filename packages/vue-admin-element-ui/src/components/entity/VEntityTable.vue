@@ -6,8 +6,8 @@
         <div
             ref="thead"
             style="width: 0"
-            :class="{ 'sticky top-0 z-20': stickyHeader }"
-            class="rounded-t-lg bg-gray-100 border-b border-gray-200 overflow-hidden"
+            :class="[{ 'sticky top-0 z-20': stickyHeader }, isScrolled ? 'shadow-lg' : 'border-b']"
+            class="rounded-t-lg bg-gray-100 border-gray-200 overflow-hidden"
         >
             <table class="min-w-full border-collapse table-fixed">
                 <thead>
@@ -65,7 +65,7 @@
                             :key="key"
                             :class="field.columnClass ? field.columnClass : 'bg-white'"
                             :style="field.columnStyles"
-                            class="px-5 py-5 border-b border-gray-200 text-sm group-hover:brightness-90 transition"
+                            class="px-5 py-5 border-b border-gray-200 text-sm group-hover:brightness-95 transition"
                         >
                             <component
                                 :is="field.component ?? 'entity-table-field'"
@@ -74,7 +74,10 @@
                                 @event="field.listener"
                             />
                         </td>
-                        <td v-if="canEdit" class="px-5 py-5 border-b border-gray-200 text-sm text-right">
+                        <td
+                            v-if="canEdit"
+                            class="px-5 py-5 border-b border-gray-200 text-sm text-right bg-white transition group-hover:brightness-95"
+                        >
                             <button
                                 class="inline-block pointer text-indigo-500 hover:text-indigo-600"
                                 type="button"
@@ -83,7 +86,10 @@
                                 {{ $vueAdmin.t('EDIT') }}
                             </button>
                         </td>
-                        <td v-if="canDelete" class="px-5 py-5 border-b border-t border-gray-200 text-sm">
+                        <td
+                            v-if="canDelete"
+                            class="px-5 py-5 border-b border-gray-200 text-sm bg-white transition group-hover:brightness-95"
+                        >
                             <entity-delete-item :item="item" :controller="controller" />
                         </td>
                     </tr>
@@ -127,6 +133,7 @@ export default defineComponent({
             selectedDeleteItem: null,
             deleteItemConfirmVisible: false,
             localSort: this.sort,
+            isScrolled: false,
         };
     },
     computed: {
@@ -138,8 +145,13 @@ export default defineComponent({
         },
     },
     mounted() {
+        const context = this as any;
         const table = this.$refs.table as HTMLDivElement;
         const thead = this.$refs.thead as HTMLDivElement;
+
+        document.getElementById('main-scroll')?.addEventListener('scroll', function () {
+            context.isScrolled = thead.getBoundingClientRect().top <= 0;
+        });
 
         if (!table || !thead) {
             return;
