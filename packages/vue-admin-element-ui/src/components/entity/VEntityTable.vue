@@ -5,7 +5,6 @@
     <div v-else>
         <div
             ref="thead"
-            style="width: 0"
             :class="[{ 'sticky top-0 z-20': stickyHeader }, isScrolled ? 'shadow-lg' : 'border-b']"
             class="rounded-t-lg bg-gray-100 border-gray-200 overflow-hidden"
         >
