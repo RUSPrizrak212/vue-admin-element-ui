@@ -134,6 +134,7 @@ export default defineComponent({
             deleteItemConfirmVisible: false,
             localSort: this.sort,
             isScrolled: false,
+            mainScroll: null as HTMLElement | null,
         };
     },
     computed: {
@@ -144,12 +145,21 @@ export default defineComponent({
             return this.localSort.type === 'table';
         },
     },
+    unmounted() {
+        const context = this as any;
+        const thead = this.$refs.thead as HTMLDivElement;
+
+        this.mainScroll?.removeEventListener('scroll', function () {
+            context.isScrolled = thead.getBoundingClientRect().top <= 0;
+        });
+    },
     mounted() {
         const context = this as any;
         const table = this.$refs.table as HTMLDivElement;
         const thead = this.$refs.thead as HTMLDivElement;
+        this.mainScroll = document.getElementById('main-scroll');
 
-        document.getElementById('main-scroll')?.addEventListener('scroll', function () {
+        this.mainScroll?.addEventListener('scroll', function () {
             context.isScrolled = thead.getBoundingClientRect().top <= 0;
         });
 
