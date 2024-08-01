@@ -46,7 +46,7 @@
             </table>
         </div>
         <div @scroll="onHorizontalScroll" ref="table" class="overflow-x-auto min-w-full" :class="tableClass">
-            <table class="leading-normal table-fixed">
+            <table class="leading-normal min-w-full border-collapse table-fixed">
                 <tbody>
                     <tr
                         v-for="item in items"
@@ -215,8 +215,8 @@ export default defineComponent({
             const active = this.getSortableField(field).value;
             return this.localSort.active === active;
         },
-        onHorizontalScroll(event: Event) {
-            (this.$refs.thead as HTMLDivElement).scrollLeft = (event.target as HTMLElement)!.scrollLeft;
+        onHorizontalScroll() {
+            (this.$refs.thead as HTMLDivElement).scrollLeft = (this.$refs.table as HTMLElement)!.scrollLeft;
         },
         onColumnSort(field: string) {
             const active = this.getSortableField(field).value;
