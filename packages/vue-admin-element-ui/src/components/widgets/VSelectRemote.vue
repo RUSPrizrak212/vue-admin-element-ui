@@ -8,7 +8,6 @@
             </div>
 
             <el-select
-                @click="onClickSelect"
                 v-show="!firstLoading"
                 ref="filter-select"
                 :id="id"
@@ -127,7 +126,7 @@ export default defineComponent({
         this.suggest?.addEventListener('scroll', this.handleScroll);
     },
     methods: {
-        handleRemoteMethod(val: string) {
+        handleRemoteMethod(val: string | null) {
             if (val === this.searchRequest) {
                 return;
             }
