@@ -72,6 +72,7 @@ export default defineComponent({
         remoteShowSuffix: { type: Boolean, default: false },
         controller: { type: Object as PropType<IEntityController>, required: true },
         searchKey: { type: String, default: 'search' },
+        clickRefresh: { type: Boolean, default: false },
         idsKey: { type: String, default: 'ids' },
         additionalRequest: { type: Object, default: () => {} },
     },
@@ -127,7 +128,7 @@ export default defineComponent({
     },
     methods: {
         handleRemoteMethod(val: string | null) {
-            if (val === this.searchRequest) {
+            if (val === this.searchRequest && !(val === '' && this.clickRefresh)) {
                 return;
             }
 
