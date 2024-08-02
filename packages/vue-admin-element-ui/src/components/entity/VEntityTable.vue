@@ -38,13 +38,13 @@
                         <th
                             v-if="canDelete"
                             scope="col"
-                            style="width: auto"
+                            style="width: 152px"
                             class="px-5 py-3 bg-white text-gray-500 text-left text-sm uppercase font-normal"
                         />
                         <th
                             v-if="canEdit"
                             scope="col"
-                            style="width: auto"
+                            style="width: 60px"
                             class="px-5 py-3 bg-white text-gray-500 text-left text-sm uppercase font-normal"
                         />
                     </tr>
@@ -178,7 +178,6 @@ export default defineComponent({
             const currentElement = value as HTMLElement;
 
             const width = `${Math.max(firstLineItem.offsetWidth, currentElement.offsetWidth) + 1}px`;
-
             [firstLineItem, currentElement].forEach((item) => {
                 item.style.width = width;
                 item.style.minWidth = width;
