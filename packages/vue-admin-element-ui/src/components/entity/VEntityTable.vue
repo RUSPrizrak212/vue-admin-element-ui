@@ -36,7 +36,13 @@
                             </div>
                         </th>
                         <th
-                            v-if="canEdit || canDelete"
+                            v-if="canDelete"
+                            scope="col"
+                            style="width: auto"
+                            class="px-5 py-3 bg-white text-gray-500 text-left text-sm uppercase font-normal"
+                        />
+                        <th
+                            v-if="canEdit"
                             scope="col"
                             style="width: auto"
                             class="px-5 py-3 bg-white text-gray-500 text-left text-sm uppercase font-normal"
