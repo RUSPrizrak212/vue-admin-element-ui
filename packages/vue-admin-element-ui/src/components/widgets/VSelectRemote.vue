@@ -64,7 +64,6 @@ export default defineComponent({
         required: { type: Boolean, default: false },
         disabled: { type: Boolean, default: false },
         multiple: { type: Boolean, default: false },
-        mountedRequest: { type: Boolean, default: true },
         valueId: { type: String, default: 'id' },
         valueName: { type: String, default: 'name' },
         entityForm: { type: Object as PropType<IEntityForm>, default: undefined },
@@ -102,7 +101,7 @@ export default defineComponent({
             suggest: null as any,
             loading: true,
             scrollTop: 0,
-            searchRequest: '',
+            searchRequest: null as string | null,
             debounce: _.debounce(function (context: any) {
                 const data = Object.assign({}, context.additionalRequest);
 
@@ -122,23 +121,12 @@ export default defineComponent({
             await this.controller.getItems({ [this.idsKey]: [this.model] });
         }
 
-        if (this.mountedRequest) {
-            await this.controller.getItems(this.additionalRequest);
-            this.firstClick = true;
-        }
-
         this.loading = false;
         this.firstLoading = false;
         this.suggest = (this.$refs['filter-select'] as any)?.scrollbarRef?.wrapRef;
         this.suggest?.addEventListener('scroll', this.handleScroll);
     },
     methods: {
-        onClickSelect() {
-            if (!this.mountedRequest && !this.firstClick) {
-                this.handleRemoteMethod('');
-                this.firstClick = true;
-            }
-        },
         handleRemoteMethod(val: string) {
             if (val === this.searchRequest) {
                 return;
