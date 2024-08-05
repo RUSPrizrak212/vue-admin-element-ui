@@ -177,7 +177,7 @@ export default defineComponent({
             const firstLineItem = firstLine[index] as HTMLElement;
             const currentElement = value as HTMLElement;
 
-            const width = `${Math.max(firstLineItem.offsetWidth, currentElement.offsetWidth) + 1}px`;
+            const width = `${Math.max(firstLineItem.offsetWidth, currentElement.offsetWidth)}px`;
             [firstLineItem, currentElement].forEach((item) => {
                 item.style.width = width;
                 item.style.minWidth = width;

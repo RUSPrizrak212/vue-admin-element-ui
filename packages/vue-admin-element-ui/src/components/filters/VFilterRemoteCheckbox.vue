@@ -44,7 +44,9 @@
         </div>
         <template v-else>
             <template v-for="(filter, key) in selected" :key="filter[idValue]">
-                <v-checkbox
+                <component
+                    :is="itemComponent"
+                    :item="filter"
                     v-if="!ids.includes(filter[idValue] as never)"
                     :id="filter[nameValue]"
                     ref="rows"
@@ -57,7 +59,9 @@
                     :appear="false"
                 />
             </template>
-            <v-checkbox
+            <component
+                :is="itemComponent"
+                :item="filter"
                 :id="filter[idValue]"
                 v-for="(filter, key) in items"
                 :key="filter[idValue]"
@@ -100,6 +104,7 @@ export default defineComponent({
         idValue: { type: String, default: 'id' },
         nameValue: { type: String, default: 'name' },
         findKey: { type: String, default: 'ids' },
+        itemComponent: { type: Object as any, default: VCheckbox },
     },
     emits: ['update:modelValue'],
     data() {
