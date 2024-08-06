@@ -13,7 +13,7 @@
                     <tr>
                         <th
                             v-for="(field, key) in fields"
-                            style="width: auto"
+                            style="width: 0"
                             :key="key"
                             :style="field.columnStyles"
                             scope="col"
