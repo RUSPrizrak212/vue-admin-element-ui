@@ -6,9 +6,9 @@
         <div
             ref="thead"
             :class="[{ 'sticky top-0 z-20': stickyHeader }, isScrolled ? 'shadow-lg' : 'border-b']"
-            class="rounded-t-lg bg-gray-100 border-gray-200 overflow-hidden"
+            class="rounded-t-lg bg-gray-100 border-gray-200 overflow-hidden min-w-full"
         >
-            <table class="min-w-full border-collapse table-fixed">
+            <table class="leading-normal min-w-full border-collapse table-fixed">
                 <thead>
                     <tr>
                         <th
@@ -70,7 +70,7 @@
                             :key="key"
                             :class="field.columnClass ? field.columnClass : 'bg-white'"
                             :style="field.columnStyles"
-                            class="px-5 py-5 border-b border-gray-200 text-sm group-hover:brightness-95 transition"
+                            class="p-5 border-b border-gray-200 text-sm group-hover:brightness-95 transition"
                         >
                             <component
                                 :is="field.component ?? 'entity-table-field'"
@@ -81,7 +81,7 @@
                         </td>
                         <td
                             v-if="canEdit"
-                            class="px-5 py-5 border-b border-gray-200 text-sm text-right bg-white transition group-hover:brightness-95"
+                            class="p-5 border-b border-gray-200 text-sm text-right bg-white transition group-hover:brightness-95"
                         >
                             <button
                                 class="inline-block pointer text-indigo-500 hover:text-indigo-600"
@@ -93,7 +93,7 @@
                         </td>
                         <td
                             v-if="canDelete"
-                            class="px-5 py-5 border-b border-gray-200 text-sm bg-white transition group-hover:brightness-95"
+                            class="p-5 border-b border-gray-200 text-sm bg-white transition group-hover:brightness-95"
                         >
                             <entity-delete-item :item="item" :controller="controller" />
                         </td>
@@ -177,7 +177,7 @@ export default defineComponent({
             const firstLineItem = firstLine[index] as HTMLElement;
             const currentElement = value as HTMLElement;
 
-            const width = `${Math.max(firstLineItem.offsetWidth, currentElement.offsetWidth)}px`;
+            const width = `${Math.max(firstLineItem.getBoundingClientRect().width, currentElement.getBoundingClientRect().width)}px`;
             [firstLineItem, currentElement].forEach((item) => {
                 item.style.width = width;
                 item.style.minWidth = width;

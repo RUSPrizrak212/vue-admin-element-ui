@@ -42,7 +42,7 @@ import { ElConfigProvider, ElOption, ElSelect } from 'element-plus';
 import VLabel from './VLabel.vue';
 import 'element-plus/es/components/select/style/css';
 import { IEntityController, IEntityForm, Map } from '@/types';
-import _, { isArray } from 'lodash';
+import _ from 'lodash';
 import Loader from '@/components/svg/Loader.vue';
 
 export default defineComponent({
@@ -82,7 +82,7 @@ export default defineComponent({
             return this.controller.items();
         },
         model: {
-            get() {
+            get(): string | number | unknown[] | undefined {
                 return this.modelValue;
             },
             set(value: number | string) {
@@ -115,10 +115,15 @@ export default defineComponent({
         };
     },
     async mounted() {
-        if (isArray(this.model) && this.model.length) {
-            await this.controller.getItems({ [this.idsKey]: this.model });
-        } else if (this.model) {
-            await this.controller.getItems({ [this.idsKey]: [this.model] });
+        const isArrayAndNotEmpty = Array.isArray(this.model) && this.model.length;
+
+        if (
+            isArrayAndNotEmpty
+                ? this.items.filter((item) => (this.model as any[]).includes(item[this.valueId])).length !==
+                  (this.model as any[]).length
+                : this.model && !this.items.some((item) => this.modelValue === item[this.valueId])
+        ) {
+            await this.controller.getItems({ [this.idsKey]: isArrayAndNotEmpty ? this.model : [this.model] });
         }
 
         this.loading = false;
