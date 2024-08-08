@@ -151,26 +151,18 @@ export default defineComponent({
         },
     },
     unmounted() {
-        const context = this as any;
-        const thead = this.$refs.thead as HTMLDivElement;
-
-        this.mainScroll?.removeEventListener('scroll', function () {
-            context.isScrolled = thead.getBoundingClientRect().top <= 0;
-        });
+        this.mainScroll?.removeEventListener('scroll', this.onGlobalScroll);
     },
     mounted() {
-        const context = this as any;
         const table = this.$refs.table as HTMLDivElement;
         const thead = this.$refs.thead as HTMLDivElement;
-        this.mainScroll = document.getElementById('main-scroll');
-
-        this.mainScroll?.addEventListener('scroll', function () {
-            context.isScrolled = thead.getBoundingClientRect().top <= 0;
-        });
 
         if (!table || !thead) {
             return;
         }
+
+        this.mainScroll = document.getElementById('main-scroll');
+        this.mainScroll?.addEventListener('scroll', this.onGlobalScroll);
 
         const firstLine = table.getElementsByTagName('tr')[0].children;
         Array.from(thead.getElementsByTagName('tr')[0].children).forEach((value, index) => {
@@ -186,6 +178,14 @@ export default defineComponent({
         });
     },
     methods: {
+        onGlobalScroll() {
+            const thead = this.$refs.thead;
+            if (!thead) {
+                return;
+            }
+
+            this.isScrolled = (thead as HTMLElement).getBoundingClientRect().top <= 0;
+        },
         getProps(item: any, field: any) {
             const name = field.name;
             const value = item[name];
