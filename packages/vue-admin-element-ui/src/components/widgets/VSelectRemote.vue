@@ -26,19 +26,17 @@
                 :multiple="multiple"
                 v-bind="binds"
             >
-                <el-option
+                <component
+                    :is="itemComponent"
                     v-for="item in items"
                     :key="item[valueId]"
+                    :label="item[valueName]"
                     :value="item[valueId]"
-                    class="!h-auto !leading-3 !py-2.5"
-                >
-                    <div class="flex flex-col">
-                        {{ item[valueName] ?? item[valueDescription] }}
-                        <span v-if="item[valueName] && item[valueDescription]" class="text-xs text-gray-500">
-                            {{ item[valueDescription] }}
-                        </span>
-                    </div>
-                </el-option>
+                    :item="item"
+                    :value-id="valueId"
+                    :value-name="valueName"
+                    :value-description="valueDescription"
+                />
             </el-select>
 
             <div v-if="hasError" :id="`${id}-error`" class="mt-1 text-sm text-red-600">
@@ -78,6 +76,7 @@ export default defineComponent({
         valueId: { type: String, default: 'id' },
         valueName: { type: String, default: 'name' },
         valueDescription: { type: String, default: 'description' },
+        itemComponent: { type: Object as any, default: ElOption },
         entityForm: { type: Object as PropType<IEntityForm>, default: undefined },
         binds: { type: Object as PropType<any>, default: undefined },
         modelValue: { type: [Number, String, Array], default: undefined },
