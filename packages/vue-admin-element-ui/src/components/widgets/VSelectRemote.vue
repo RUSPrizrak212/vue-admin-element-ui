@@ -26,7 +26,19 @@
                 :multiple="multiple"
                 v-bind="binds"
             >
-                <el-option v-for="item in items" :key="item[valueId]" :label="item[valueName]" :value="item[valueId]" />
+                <el-option
+                    v-for="item in items"
+                    :key="item[valueId]"
+                    :value="item[valueId]"
+                    class="!h-auto !leading-3 !py-2.5"
+                >
+                    <div class="flex flex-col">
+                        {{ item[valueName] ?? item[valueDescription] }}
+                        <span v-if="item[valueName] && item[valueDescription]" class="text-xs text-gray-500">
+                            {{ item[valueDescription] }}
+                        </span>
+                    </div>
+                </el-option>
             </el-select>
 
             <div v-if="hasError" :id="`${id}-error`" class="mt-1 text-sm text-red-600">
@@ -65,6 +77,7 @@ export default defineComponent({
         multiple: { type: Boolean, default: false },
         valueId: { type: String, default: 'id' },
         valueName: { type: String, default: 'name' },
+        valueDescription: { type: String, default: 'description' },
         entityForm: { type: Object as PropType<IEntityForm>, default: undefined },
         binds: { type: Object as PropType<any>, default: undefined },
         modelValue: { type: [Number, String, Array], default: undefined },
@@ -120,7 +133,7 @@ export default defineComponent({
         if (
             isArrayAndNotEmpty
                 ? this.items.filter((item) => (this.model as any[]).includes(item[this.valueId])).length !==
-                  (this.model as any[]).length
+                (this.model as any[]).length
                 : this.model && !this.items.some((item) => this.modelValue === item[this.valueId])
         ) {
             await this.controller.getItems({ [this.idsKey]: isArrayAndNotEmpty ? this.model : [this.model] });
