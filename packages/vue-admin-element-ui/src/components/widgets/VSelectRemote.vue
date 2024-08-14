@@ -26,17 +26,22 @@
                 :multiple="multiple"
                 v-bind="binds"
             >
-                <component
-                    :is="itemComponent"
+                <el-option
                     v-for="item in items"
                     :key="item[valueId]"
-                    :label="item[valueName]"
                     :value="item[valueId]"
-                    :item="item"
-                    :value-id="valueId"
-                    :value-name="valueName"
-                    :value-description="valueDescription"
-                />
+                    :label="item[valueName] ?? item[valueDescription]"
+                    :class="{ '!h-auto !leading-3 !py-2.5': itemComponent !== undefined }"
+                >
+                    <component
+                        v-if="itemComponent"
+                        :is="itemComponent"
+                        :item="item"
+                        :value-id="valueId"
+                        :value-name="valueName"
+                        :value-description="valueDescription"
+                    />
+                </el-option>
             </el-select>
 
             <div v-if="hasError" :id="`${id}-error`" class="mt-1 text-sm text-red-600">
@@ -75,8 +80,8 @@ export default defineComponent({
         multiple: { type: Boolean, default: false },
         valueId: { type: String, default: 'id' },
         valueName: { type: String, default: 'name' },
-        valueDescription: { type: String, default: 'description' },
-        itemComponent: { type: Object as any, default: ElOption },
+        valueDescription: { type: String, default: 'name' },
+        itemComponent: { type: Object as any, default: undefined },
         entityForm: { type: Object as PropType<IEntityForm>, default: undefined },
         binds: { type: Object as PropType<any>, default: undefined },
         modelValue: { type: [Number, String, Array], default: undefined },
